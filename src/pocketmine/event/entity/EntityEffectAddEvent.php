@@ -25,7 +25,7 @@ use pocketmine\entity\Effect;
 use pocketmine\entity\Entity;
 
 class EntityEffectAddEvent extends EntityEffectEvent{
-	public static $handlerList = null;
+	public static $handlerList = \null;
 
 	/** @var bool */
 	private $modify;

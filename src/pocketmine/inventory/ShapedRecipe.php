@@ -30,7 +30,7 @@ class ShapedRecipe implements Recipe{
 	/** @var Item */
 	private $output;
 
-	private $id = null;
+	private $id = \null;
 
 	/** @var string[] */
 	private $shape = [];
@@ -52,18 +52,18 @@ class ShapedRecipe implements Recipe{
 			if($width === 0 or $width > 3){
 				throw new \InvalidStateException("Crafting rows should be 1, 2, 3 wide, not $width");
 			}
-			$this->ingredients[] = array_fill(0, $width, null);
+			$this->ingredients[] = \array_fill(0, $width, \null);
 		}
 
 		$this->output = clone $result;
 	}
 
 	public function getWidth(){
-		return count($this->ingredients[0]);
+		return \count($this->ingredients[0]);
 	}
 
 	public function getHeight(){
-		return count($this->ingredients);
+		return \count($this->ingredients);
 	}
 
 	public function getResult(){
@@ -75,7 +75,7 @@ class ShapedRecipe implements Recipe{
 	}
 
 	public function setId(UUID $id){
-		if($this->id !== null){
+		if($this->id !== \null){
 			throw new \InvalidStateException("Id is already set");
 		}
 
@@ -95,7 +95,7 @@ class ShapedRecipe implements Recipe{
 	 * @throws \Exception
 	 */
 	public function setIngredient($key, Item $item){
-		if(!array_key_exists($key, $this->shape)){
+		if(!\array_key_exists($key, $this->shape)){
 			throw new \Exception("Symbol does not appear in the shape: " . $key);
 		}
 
@@ -118,7 +118,7 @@ class ShapedRecipe implements Recipe{
 		foreach($this->ingredients as $y => $row){
 			$ingredients[$y] = [];
 			foreach($row as $x => $ingredient){
-				if($ingredient !== null){
+				if($ingredient !== \null){
 					$ingredients[$y][$x] = clone $ingredient;
 				}else{
 					$ingredients[$y][$x] = Item::get(Item::AIR);

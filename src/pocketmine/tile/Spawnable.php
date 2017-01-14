@@ -31,7 +31,7 @@ abstract class Spawnable extends Tile{
 
 	public function spawnTo(Player $player){
 		if($this->closed){
-			return false;
+			return \false;
 		}
 
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
@@ -40,10 +40,10 @@ abstract class Spawnable extends Tile{
 		$pk->x = $this->x;
 		$pk->y = $this->y;
 		$pk->z = $this->z;
-		$pk->namedtag = $nbt->write(true);
+		$pk->namedtag = $nbt->write(\true);
 		$player->dataPacket($pk);
 
-		return true;
+		return \true;
 	}
 
 	public function __construct(Chunk $chunk, CompoundTag $nbt){
@@ -57,7 +57,7 @@ abstract class Spawnable extends Tile{
 		}
 
 		foreach($this->getLevel()->getChunkPlayers($this->chunk->getX(), $this->chunk->getZ()) as $player){
-			if($player->spawned === true){
+			if($player->spawned === \true){
 				$this->spawnTo($player);
 			}
 		}
@@ -66,7 +66,7 @@ abstract class Spawnable extends Tile{
 	protected function onChanged(){
 		$this->spawnToAll();
 
-		if($this->chunk !== null){
+		if($this->chunk !== \null){
 			$this->chunk->setChanged();
 			$this->level->clearChunkCache($this->chunk->getX(), $this->chunk->getZ());
 		}
@@ -87,6 +87,6 @@ abstract class Spawnable extends Tile{
 	 * @return bool indication of success, will respawn the tile to the player if false.
 	 */
 	public function updateCompoundTag(CompoundTag $nbt, Player $player) : bool{
-		return false;
+		return \false;
 	}
 }

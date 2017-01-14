@@ -64,7 +64,7 @@ abstract class Biome{
 	private static $biomes = [];
 
 	private $id;
-	private $registered = false;
+	private $registered = \false;
 	/** @var Populator[] */
 	private $populators = [];
 
@@ -128,7 +128,7 @@ abstract class Biome{
 
 	public function setId($id){
 		if(!$this->registered){
-			$this->registered = true;
+			$this->registered = \true;
 			$this->id = $id;
 		}
 	}

@@ -33,11 +33,11 @@ class LongTag extends NamedTag{
 
 	//TODO: check if this also changed to varint
 
-	public function read(NBT $nbt, bool $network = false){
+	public function read(NBT $nbt, bool $network = \false){
 		$this->value = $nbt->getLong();
 	}
 
-	public function write(NBT $nbt, bool $network = false){
+	public function write(NBT $nbt, bool $network = \false){
 		$nbt->putLong($this->value);
 	}
 }

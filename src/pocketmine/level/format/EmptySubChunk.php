@@ -30,7 +30,7 @@ class EmptySubChunk extends SubChunk{
 	}
 
 	public function isEmpty() : bool{
-		return true;
+		return \true;
 	}
 
 	public function getBlockId(int $x, int $y, int $z) : int{
@@ -38,7 +38,7 @@ class EmptySubChunk extends SubChunk{
 	}
 
 	public function setBlockId(int $x, int $y, int $z, int $id) : bool{
-		return false;
+		return \false;
 	}
 
 	public function getBlockData(int $x, int $y, int $z) : int{
@@ -46,15 +46,15 @@ class EmptySubChunk extends SubChunk{
 	}
 
 	public function setBlockData(int $x, int $y, int $z, int $data) : bool{
-		return false;
+		return \false;
 	}
 
 	public function getFullBlock(int $x, int $y, int $z) : int{
 		return 0;
 	}
 
-	public function setBlock(int $x, int $y, int $z, $id = null, $data = null) : bool{
-		return false;
+	public function setBlock(int $x, int $y, int $z, $id = \null, $data = \null) : bool{
+		return \false;
 	}
 
 	public function getBlockLight(int $x, int $y, int $z) : int{
@@ -62,7 +62,7 @@ class EmptySubChunk extends SubChunk{
 	}
 
 	public function setBlockLight(int $x, int $y, int $z, int $level) : bool{
-		return false;
+		return \false;
 	}
 
 	public function getBlockSkyLight(int $x, int $y, int $z) : int{
@@ -70,7 +70,7 @@ class EmptySubChunk extends SubChunk{
 	}
 
 	public function setBlockSkyLight(int $x, int $y, int $z, int $level) : bool{
-		return false;
+		return \false;
 	}
 
 	public function getBlockIdColumn(int $x, int $z) : string{
@@ -90,23 +90,23 @@ class EmptySubChunk extends SubChunk{
 	}
 
 	public function getBlockIdArray() : string{
-		return str_repeat("\x00", 4096);
+		return \str_repeat("\x00", 4096);
 	}
 
 	public function getBlockDataArray() : string{
-		return str_repeat("\x00", 2048);
+		return \str_repeat("\x00", 2048);
 	}
 
 	public function getBlockLightArray() : string{
-		return str_repeat("\x00", 2048);
+		return \str_repeat("\x00", 2048);
 	}
 
 	public function getSkyLightArray() : string{
-		return str_repeat("\xff", 2048);
+		return \str_repeat("\xff", 2048);
 	}
 
 	public function networkSerialize() : string{
-		return "\x00" . str_repeat("\x00", 10240);
+		return "\x00" . \str_repeat("\x00", 10240);
 	}
 
 	public function fastSerialize() : string{

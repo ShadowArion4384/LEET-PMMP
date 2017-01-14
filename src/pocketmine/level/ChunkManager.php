@@ -81,7 +81,7 @@ interface ChunkManager{
 	 * @param int   $chunkZ
 	 * @param Chunk $chunk
 	 */
-	public function setChunk(int $chunkX, int $chunkZ, Chunk $chunk = null);
+	public function setChunk(int $chunkX, int $chunkZ, Chunk $chunk = \null);
 
 	/**
 	 * Gets the level seed

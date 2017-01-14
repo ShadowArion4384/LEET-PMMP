@@ -26,7 +26,7 @@ use pocketmine\event\Cancellable;
 use pocketmine\item\Item;
 
 class EntityArmorChangeEvent extends EntityEvent implements Cancellable{
-	public static $handlerList = null;
+	public static $handlerList = \null;
 
 	private $oldItem;
 	private $newItem;

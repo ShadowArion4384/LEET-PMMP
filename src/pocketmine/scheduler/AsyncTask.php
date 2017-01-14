@@ -36,18 +36,18 @@ use pocketmine\Server;
 abstract class AsyncTask extends Collectable{
 
 	/** @var AsyncWorker $worker */
-	public $worker = null;
+	public $worker = \null;
 
 	/** @var \Threaded */
 	public $progressUpdates;
 
-	private $result = null;
-	private $serialized = false;
-	private $cancelRun = false;
+	private $result = \null;
+	private $serialized = \false;
+	private $cancelRun = \false;
 	/** @var int */
-	private $taskId = null;
+	private $taskId = \null;
 
-	private $crashed = false;
+	private $crashed = \false;
 
 	/**
 	 * Constructs a new instance of AsyncTask. Subclasses don't need to call this constructor unless an argument is to be passed. ONLY construct this class from the main thread.
@@ -64,8 +64,8 @@ abstract class AsyncTask extends Collectable{
 	 *
 	 * @param mixed $complexData the data to store, pass null to store nothing. Scalar types can be safely stored in class properties directly instead of using this thread-local storage.
 	 */
-	public function __construct($complexData = null){
-		if($complexData === null){
+	public function __construct($complexData = \null){
+		if($complexData === \null){
 			return;
 		}
 
@@ -73,13 +73,13 @@ abstract class AsyncTask extends Collectable{
 	}
 
 	public function run(){
-		$this->result = null;
+		$this->result = \null;
 
-		if($this->cancelRun !== true){
+		if($this->cancelRun !== \true){
 			try{
 				$this->onRun();
 			}catch(\Throwable $e){
-				$this->crashed = true;
+				$this->crashed = \true;
 				$this->worker->handleException($e);
 			}
 		}
@@ -95,30 +95,30 @@ abstract class AsyncTask extends Collectable{
 	 * @return mixed
 	 */
 	public function getResult(){
-		return $this->serialized ? unserialize($this->result) : $this->result;
+		return $this->serialized ? \unserialize($this->result) : $this->result;
 	}
 
 	public function cancelRun(){
-		$this->cancelRun = true;
+		$this->cancelRun = \true;
 	}
 
 	public function hasCancelledRun(){
-		return $this->cancelRun === true;
+		return $this->cancelRun === \true;
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function hasResult(){
-		return $this->result !== null;
+		return $this->result !== \null;
 	}
 
 	/**
 	 * @param mixed $result
 	 * @param bool  $serialize
 	 */
-	public function setResult($result, $serialize = true){
-		$this->result = $serialize ? serialize($result) : $result;
+	public function setResult($result, $serialize = \true){
+		$this->result = $serialize ? \serialize($result) : $result;
 		$this->serialized = $serialize;
 	}
 
@@ -139,7 +139,7 @@ abstract class AsyncTask extends Collectable{
 	 */
 	public function getFromThreadStore($identifier){
 		global $store;
-		return $this->isGarbage() ? null : $store[$identifier];
+		return $this->isGarbage() ? \null : $store[$identifier];
 	}
 
 	/**
@@ -182,7 +182,7 @@ abstract class AsyncTask extends Collectable{
 	 * @param mixed $progress A value that can be safely serialize()'ed.
 	 */
 	public function publishProgress($progress){
-		$this->progressUpdates[] = serialize($progress);
+		$this->progressUpdates[] = \serialize($progress);
 	}
 
 	/**
@@ -193,7 +193,7 @@ abstract class AsyncTask extends Collectable{
 	public function checkProgressUpdates(Server $server){
 		while($this->progressUpdates->count() !== 0){
 			$progress = $this->progressUpdates->shift();
-			$this->onProgressUpdate($server, unserialize($progress));
+			$this->onProgressUpdate($server, \unserialize($progress));
 		}
 	}
 
@@ -224,10 +224,10 @@ abstract class AsyncTask extends Collectable{
 	 *
 	 * @throws \RuntimeException if no data were stored by this AsyncTask instance.
 	 */
-	protected function fetchLocal(Server $server = null){
-		if($server === null){
+	protected function fetchLocal(Server $server = \null){
+		if($server === \null){
 			$server = Server::getInstance();
-			assert($server !== null, "Call this method only from the main thread!");
+			\assert($server !== \null, "Call this method only from the main thread!");
 		}
 
 		return $server->getScheduler()->fetchLocalComplex($this);
@@ -246,10 +246,10 @@ abstract class AsyncTask extends Collectable{
 	 *
 	 * @throws \RuntimeException if no data were stored by this AsyncTask instance
 	 */
-	protected function peekLocal(Server $server = null){
-		if($server === null){
+	protected function peekLocal(Server $server = \null){
+		if($server === \null){
 			$server = Server::getInstance();
-			assert($server !== null, "Call this method only from the main thread!");
+			\assert($server !== \null, "Call this method only from the main thread!");
 		}
 
 		return $server->getScheduler()->peekLocalComplex($this);
@@ -258,7 +258,7 @@ abstract class AsyncTask extends Collectable{
 	public function cleanObject(){
 		foreach($this as $p => $v){
 			if(!($v instanceof \Threaded)){
-				$this->{$p} = null;
+				$this->{$p} = \null;
 			}
 		}
 	}

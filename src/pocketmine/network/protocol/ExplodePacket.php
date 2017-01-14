@@ -46,8 +46,8 @@ class ExplodePacket extends DataPacket{
 		$this->reset();
 		$this->putVector3f($this->x, $this->y, $this->z);
 		$this->putLFloat($this->radius);
-		$this->putUnsignedVarInt(count($this->records));
-		if(count($this->records) > 0){
+		$this->putUnsignedVarInt(\count($this->records));
+		if(\count($this->records) > 0){
 			foreach($this->records as $record){
 				$this->putBlockCoords($record->x, $record->y, $record->z);
 			}

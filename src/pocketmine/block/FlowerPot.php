@@ -49,7 +49,7 @@ class FlowerPot extends Flowable{
 	}
 
 	public function canBeActivated(): bool{
-		return true;
+		return \true;
 	}
 
 	protected function recalculateBoundingBox(){
@@ -63,12 +63,12 @@ class FlowerPot extends Flowable{
 		);
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
-			return false;
+			return \false;
 		}
 
-		$this->getLevel()->setBlock($block, $this, true, true);
+		$this->getLevel()->setBlock($block, $this, \true, \true);
 
 		$nbt = new CompoundTag("", [
 			new StringTag("id", Tile::FLOWER_POT),
@@ -86,32 +86,32 @@ class FlowerPot extends Flowable{
 		}
 
 		Tile::createTile(Tile::FLOWER_POT, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-		return true;
+		return \true;
 	}
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(0)->isTransparent() === true){
+			if($this->getSide(0)->isTransparent() === \true){
 				$this->getLevel()->useBreakOn($this);
 
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
 
-		return false;
+		return \false;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		$pot = $this->getLevel()->getTile($this);
 		if(!($pot instanceof TileFlowerPot)){
-			return false;
+			return \false;
 		}
 		if(!$pot->canAddItem($item)){
-			return true;
+			return \true;
 		}
 
 		$this->setDamage(self::STATE_FULL); //specific damage value is unnecessary, it just needs to be non-zero to show an item.
-		$this->getLevel()->setBlock($this, $this, true, false);
+		$this->getLevel()->setBlock($this, $this, \true, \false);
 		$pot->setItem($item);
 
 		if($player instanceof Player){
@@ -120,7 +120,7 @@ class FlowerPot extends Flowable{
 				$player->getInventory()->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
 			}
 		}
-		return true;
+		return \true;
 	}
 
 	public function getDrops(Item $item){

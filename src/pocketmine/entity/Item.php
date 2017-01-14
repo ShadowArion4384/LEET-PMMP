@@ -34,8 +34,8 @@ use pocketmine\Player;
 class Item extends Entity{
 	const NETWORK_ID = 64;
 
-	protected $owner = null;
-	protected $thrower = null;
+	protected $owner = \null;
+	protected $thrower = \null;
 	protected $pickupDelay = 0;
 	/** @var ItemItem */
 	protected $item;
@@ -46,7 +46,7 @@ class Item extends Entity{
 	protected $gravity = 0.04;
 	protected $drag = 0.02;
 
-	public $canCollide = false;
+	public $canCollide = \false;
 
 	protected function initEntity(){
 		parent::initEntity();
@@ -72,7 +72,7 @@ class Item extends Entity{
 			return;
 		}
 
-		assert($this->namedtag->Item instanceof CompoundTag);
+		\assert($this->namedtag->Item instanceof CompoundTag);
 
 		$this->item = ItemItem::nbtDeserialize($this->namedtag->Item);
 
@@ -93,12 +93,12 @@ class Item extends Entity{
 
 	public function onUpdate($currentTick){
 		if($this->closed){
-			return false;
+			return \false;
 		}
 
 		$tickDiff = $currentTick - $this->lastUpdate;
 		if($tickDiff <= 0 and !$this->justCreated){
-			return true;
+			return \true;
 		}
 
 		$this->lastUpdate = $currentTick;
@@ -119,15 +119,15 @@ class Item extends Entity{
 			$this->motionY -= $this->gravity;
 
 			if($this->checkObstruction($this->x, $this->y, $this->z)){
-				$hasUpdate = true;
+				$hasUpdate = \true;
 			}
 
 			$this->move($this->motionX, $this->motionY, $this->motionZ);
 
 			$friction = 1 - $this->drag;
 
-			if($this->onGround and (abs($this->motionX) > 0.00001 or abs($this->motionZ) > 0.00001)){
-				$friction = $this->getLevel()->getBlock($this->temporalVector->setComponents((int) floor($this->x), (int) floor($this->y - 1), (int) floor($this->z) - 1))->getFrictionFactor() * $friction;
+			if($this->onGround and (\abs($this->motionX) > 0.00001 or \abs($this->motionZ) > 0.00001)){
+				$friction = $this->getLevel()->getBlock($this->temporalVector->setComponents((int) \floor($this->x), (int) \floor($this->y - 1), (int) \floor($this->z) - 1))->getFrictionFactor() * $friction;
 			}
 
 			$this->motionX *= $friction;
@@ -146,7 +146,7 @@ class Item extends Entity{
 					$this->age = 0;
 				}else{
 					$this->kill();
-					$hasUpdate = true;
+					$hasUpdate = \true;
 				}
 			}
 
@@ -154,7 +154,7 @@ class Item extends Entity{
 
 		$this->timings->stopTiming();
 
-		return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
+		return $hasUpdate or !$this->onGround or \abs($this->motionX) > 0.00001 or \abs($this->motionY) > 0.00001 or \abs($this->motionZ) > 0.00001;
 	}
 
 	public function saveNBT(){
@@ -163,10 +163,10 @@ class Item extends Entity{
 		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
 		$this->namedtag->Age = new ShortTag("Age", $this->age);
 		$this->namedtag->PickupDelay = new ShortTag("PickupDelay", $this->pickupDelay);
-		if($this->owner !== null){
+		if($this->owner !== \null){
 			$this->namedtag->Owner = new StringTag("Owner", $this->owner);
 		}
-		if($this->thrower !== null){
+		if($this->thrower !== \null){
 			$this->namedtag->Thrower = new StringTag("Thrower", $this->thrower);
 		}
 	}
@@ -179,7 +179,7 @@ class Item extends Entity{
 	}
 
 	public function canCollideWith(Entity $entity){
-		return false;
+		return \false;
 	}
 
 	/**

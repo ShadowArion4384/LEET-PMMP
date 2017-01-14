@@ -60,7 +60,7 @@ class Sign extends Spawnable{
 		$this->namedtag->Text4 = new StringTag("Text4", $line4);
 		$this->onChanged();
 
-		return true;
+		return \true;
 	}
 
 	public function getText(){
@@ -87,7 +87,7 @@ class Sign extends Spawnable{
 
 	public function updateCompoundTag(CompoundTag $nbt, Player $player) : bool{
 		if($nbt["id"] !== Tile::SIGN){
-			return false;
+			return \false;
 		}
 
 		$ev = new SignChangeEvent($this->getBlock(), $player, [
@@ -105,9 +105,9 @@ class Sign extends Spawnable{
 
 		if(!$ev->isCancelled()){
 			$this->setText(...$ev->getLines());
-			return true;
+			return \true;
 		}else{
-			return false;
+			return \false;
 		}
 	}
 

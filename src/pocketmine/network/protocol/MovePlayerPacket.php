@@ -42,7 +42,7 @@ class MovePlayerPacket extends DataPacket{
 	public $onGround;
 
 	public function clean(){
-		$this->teleport = false;
+		$this->teleport = \false;
 		return parent::clean();
 	}
 

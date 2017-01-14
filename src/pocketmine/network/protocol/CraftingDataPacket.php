@@ -42,7 +42,7 @@ class CraftingDataPacket extends DataPacket{
 
 	/** @var object[] */
 	public $entries = [];
-	public $cleanRecipes = false;
+	public $cleanRecipes = \false;
 
 	public function clean(){
 		$this->entries = [];
@@ -180,7 +180,7 @@ class CraftingDataPacket extends DataPacket{
 
 	public function encode(){
 		$this->reset();
-		$this->putUnsignedVarInt(count($this->entries));
+		$this->putUnsignedVarInt(\count($this->entries));
 
 		$writer = new BinaryStream();
 		foreach($this->entries as $d){

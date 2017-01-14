@@ -80,7 +80,7 @@ class TextPacket extends DataPacket{
 
 			case self::TYPE_TRANSLATION:
 				$this->putString($this->message);
-				$this->putUnsignedVarInt(count($this->parameters));
+				$this->putUnsignedVarInt(\count($this->parameters));
 				foreach($this->parameters as $p){
 					$this->putString($p);
 				}

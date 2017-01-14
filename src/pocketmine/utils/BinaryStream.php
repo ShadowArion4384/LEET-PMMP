@@ -40,7 +40,7 @@ class BinaryStream extends \stdClass{
 		$this->offset = 0;
 	}
 
-	public function setBuffer($buffer = null, $offset = 0){
+	public function setBuffer($buffer = \null, $offset = 0){
 		$this->buffer = $buffer;
 		$this->offset = (int) $offset;
 	}
@@ -55,15 +55,15 @@ class BinaryStream extends \stdClass{
 
 	public function get($len){
 		if($len < 0){
-			$this->offset = strlen($this->buffer) - 1;
+			$this->offset = \strlen($this->buffer) - 1;
 			return "";
-		}elseif($len === true){
-			$str = substr($this->buffer, $this->offset);
-			$this->offset = strlen($this->buffer);
+		}elseif($len === \true){
+			$str = \substr($this->buffer, $this->offset);
+			$this->offset = \strlen($this->buffer);
 			return $str;
 		}
 
-		return $len === 1 ? $this->buffer{$this->offset++} : substr($this->buffer, ($this->offset += $len) - $len, $len);
+		return $len === 1 ? $this->buffer{$this->offset++} : \substr($this->buffer, ($this->offset += $len) - $len, $len);
 	}
 
 	public function put($str){
@@ -134,7 +134,7 @@ class BinaryStream extends \stdClass{
 		$this->buffer .= Binary::writeFloat($v);
 	}
 
-	public function getLShort($signed = true){
+	public function getLShort($signed = \true){
 		return $signed ? Binary::readSignedLShort($this->get(2)) : Binary::readLShort($this->get(2));
 	}
 
@@ -169,11 +169,11 @@ class BinaryStream extends \stdClass{
 	}
 
 	public function getByte(){
-		return ord($this->buffer{$this->offset++});
+		return \ord($this->buffer{$this->offset++});
 	}
 
 	public function putByte($v){
-		$this->buffer .= chr($v);
+		$this->buffer .= \chr($v);
 	}
 
 	public function getDataArray($len = 10){
@@ -187,7 +187,7 @@ class BinaryStream extends \stdClass{
 
 	public function putDataArray(array $data = []){
 		foreach($data as $v){
-			$this->putTriad(strlen($v));
+			$this->putTriad(\strlen($v));
 			$this->put($v);
 		}
 	}
@@ -236,7 +236,7 @@ class BinaryStream extends \stdClass{
 		$auxValue = (($item->getDamage() ?? -1) << 8) | $item->getCount();
 		$this->putVarInt($auxValue);
 		$nbt = $item->getCompoundTag();
-		$this->putLShort(strlen($nbt));
+		$this->putLShort(\strlen($nbt));
 		$this->put($nbt);
 	}
 
@@ -245,7 +245,7 @@ class BinaryStream extends \stdClass{
 	}
 
 	public function putString($v){
-		$this->putUnsignedVarInt(strlen($v));
+		$this->putUnsignedVarInt(\strlen($v));
 		$this->put($v);
 	}
 

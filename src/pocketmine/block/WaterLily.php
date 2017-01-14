@@ -55,16 +55,16 @@ class WaterLily extends Flowable{
 	}
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		if($target instanceof Water){
 			$up = $target->getSide(Vector3::SIDE_UP);
 			if($up->getId() === Block::AIR){
-				$this->getLevel()->setBlock($up, $this, true, true);
-				return true;
+				$this->getLevel()->setBlock($up, $this, \true, \true);
+				return \true;
 			}
 		}
 
-		return false;
+		return \false;
 	}
 
 	public function onUpdate($type){
@@ -75,7 +75,7 @@ class WaterLily extends Flowable{
 			}
 		}
 
-		return false;
+		return \false;
 	}
 
 	public function getDrops(Item $item){

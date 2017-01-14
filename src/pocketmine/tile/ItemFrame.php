@@ -55,8 +55,8 @@ class ItemFrame extends Spawnable{
 		}
 	}
 
-	public function setItem(Item $item = null){
-		if($item !== null and $item->getId() !== Item::AIR){
+	public function setItem(Item $item = \null){
+		if($item !== \null and $item->getId() !== Item::AIR){
 			$this->namedtag->Item = $item->nbtSerialize(-1, "Item");
 		}else{
 			unset($this->namedtag->Item);

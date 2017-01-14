@@ -45,7 +45,7 @@ class BurningFurnace extends Solid{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
 	public function getHardness(){
@@ -60,7 +60,7 @@ class BurningFurnace extends Solid{
 		return 13;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		$faces = [
 			0 => 4,
 			1 => 2,
@@ -68,7 +68,7 @@ class BurningFurnace extends Solid{
 			3 => 3,
 		];
 		$this->meta = $faces[$player instanceof Player ? $player->getDirection() : 0];
-		$this->getLevel()->setBlock($block, $this, true, true);
+		$this->getLevel()->setBlock($block, $this, \true, \true);
 		$nbt = new CompoundTag("", [
 			new ListTag("Items", []),
 			new StringTag("id", Tile::FURNACE),
@@ -90,16 +90,16 @@ class BurningFurnace extends Solid{
 
 		Tile::createTile("Furnace", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 
-		return true;
+		return \true;
 	}
 
 	public function onBreak(Item $item){
-		$this->getLevel()->setBlock($this, new Air(), true, true);
+		$this->getLevel()->setBlock($this, new Air(), \true, \true);
 
-		return true;
+		return \true;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		if($player instanceof Player){
 			if(!(($furnace = $this->getLevel()->getTile($this)) instanceof TileFurnace)){
 				$nbt = new CompoundTag("", [
@@ -115,14 +115,14 @@ class BurningFurnace extends Solid{
 
 			if(isset($furnace->namedtag->Lock) and $furnace->namedtag->Lock instanceof StringTag){
 				if($furnace->namedtag->Lock->getValue() !== $item->getCustomName()){
-					return true;
+					return \true;
 				}
 			}
 
 			$player->addWindow($furnace->getInventory());
 		}
 
-		return true;
+		return \true;
 	}
 
 	public function getDrops(Item $item){

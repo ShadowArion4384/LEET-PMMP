@@ -55,10 +55,10 @@ class Explosion{
 	/** @var Entity|Block */
 	private $what;
 
-	public function __construct(Position $center, $size, $what = null){
+	public function __construct(Position $center, $size, $what = \null){
 		$this->level = $center->getLevel();
 		$this->source = $center;
-		$this->size = max($size, 0);
+		$this->size = \max($size, 0);
 		$this->what = $what;
 	}
 
@@ -67,13 +67,13 @@ class Explosion{
 	 */
 	public function explodeA(){
 		if($this->size < 0.1){
-			return false;
+			return \false;
 		}
 
 		$vector = new Vector3(0, 0, 0);
 		$vBlock = new Vector3(0, 0, 0);
 
-		$mRays = intval($this->rays - 1);
+		$mRays = \intval($this->rays - 1);
 		for($i = 0; $i < $this->rays; ++$i){
 			for($j = 0; $j < $this->rays; ++$j){
 				for($k = 0; $k < $this->rays; ++$k){
@@ -84,7 +84,7 @@ class Explosion{
 						$pointerY = $this->source->y;
 						$pointerZ = $this->source->z;
 
-						for($blastForce = $this->size * (mt_rand(700, 1300) / 1000); $blastForce > 0; $blastForce -= $this->stepLen * 0.75){
+						for($blastForce = $this->size * (\mt_rand(700, 1300) / 1000); $blastForce > 0; $blastForce -= $this->stepLen * 0.75){
 							$x = (int) $pointerX;
 							$y = (int) $pointerY;
 							$z = (int) $pointerZ;
@@ -113,7 +113,7 @@ class Explosion{
 			}
 		}
 
-		return true;
+		return \true;
 	}
 
 	public function explodeB(){
@@ -126,7 +126,7 @@ class Explosion{
 		if($this->what instanceof Entity){
 			$this->level->getServer()->getPluginManager()->callEvent($ev = new EntityExplodeEvent($this->what, $this->source, $this->affectedBlocks, $yield));
 			if($ev->isCancelled()){
-				return false;
+				return \false;
 			}else{
 				$yield = $ev->getYield();
 				$this->affectedBlocks = $ev->getBlockList();
@@ -143,7 +143,7 @@ class Explosion{
 
 		$explosionBB = new AxisAlignedBB($minX, $minY, $minZ, $maxX, $maxY, $maxZ);
 
-		$list = $this->level->getNearbyEntities($explosionBB, $this->what instanceof Entity ? $this->what : null);
+		$list = $this->level->getNearbyEntities($explosionBB, $this->what instanceof Entity ? $this->what : \null);
 		foreach($list as $entity){
 			$distance = $entity->distance($this->source) / $explosionSize;
 
@@ -180,18 +180,18 @@ class Explosion{
 						new DoubleTag("", $block->z + 0.5)
 					]),
 					"Motion" => new ListTag("Motion", [
-						new DoubleTag("", -sin($mot) * 0.02),
+						new DoubleTag("", -\sin($mot) * 0.02),
 						new DoubleTag("", 0.2),
-						new DoubleTag("", -cos($mot) * 0.02)
+						new DoubleTag("", -\cos($mot) * 0.02)
 					]),
 					"Rotation" => new ListTag("Rotation", [
 						new FloatTag("", 0),
 						new FloatTag("", 0)
 					]),
-					"Fuse" => new ByteTag("Fuse", mt_rand(10, 30))
+					"Fuse" => new ByteTag("Fuse", \mt_rand(10, 30))
 				]));
 				$tnt->spawnToAll();
-			}elseif(mt_rand(0, 100) < $yield){
+			}elseif(\mt_rand(0, 100) < $yield){
 				foreach($block->getDrops($air) as $drop){
 					$this->level->dropItem($block->add(0.5, 0.5, 0.5), Item::get(...$drop));
 				}
@@ -208,7 +208,7 @@ class Explosion{
 					if(!$ev->isCancelled()){
 						$ev->getBlock()->onUpdate(Level::BLOCK_UPDATE_NORMAL);
 					}
-					$updateBlocks[$index] = true;
+					$updateBlocks[$index] = \true;
 				}
 			}
 			$send[] = new Vector3($block->x - $source->x, $block->y - $source->y, $block->z - $source->z);
@@ -224,6 +224,6 @@ class Explosion{
 
 		$this->level->addParticle(new HugeExplodeSeedParticle($source));
 
-		return true;
+		return \true;
 	}
 }

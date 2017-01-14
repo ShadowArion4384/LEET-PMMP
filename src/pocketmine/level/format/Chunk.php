@@ -47,13 +47,13 @@ class Chunk{
 	protected $x;
 	protected $z;
 
-	protected $hasChanged = false;
+	protected $hasChanged = \false;
 
-	protected $isInit = false;
+	protected $isInit = \false;
 
-	protected $lightPopulated = false;
-	protected $terrainGenerated = false;
-	protected $terrainPopulated = false;
+	protected $lightPopulated = \false;
+	protected $terrainGenerated = \false;
+	protected $terrainPopulated = \false;
 
 	protected $height = Chunk::MAX_SUBCHUNKS;
 
@@ -61,7 +61,7 @@ class Chunk{
 	protected $subChunks = [];
 
 	/** @var EmptySubChunk */
-	protected $emptySubChunk = null;
+	protected $emptySubChunk = \null;
 
 	/** @var Tile[] */
 	protected $tiles = [];
@@ -99,7 +99,7 @@ class Chunk{
 		$this->x = $chunkX;
 		$this->z = $chunkZ;
 
-		$this->height = $provider !== null ? ($provider->getWorldHeight() >> 4) : 16;
+		$this->height = $provider !== \null ? ($provider->getWorldHeight() >> 4) : 16;
 
 		$this->emptySubChunk = new EmptySubChunk();
 
@@ -120,19 +120,19 @@ class Chunk{
 			}
 		}
 
-		if(count($heightMap) === 256){
+		if(\count($heightMap) === 256){
 			$this->heightMap = $heightMap;
 		}else{
-			assert(count($heightMap) === 0, "Wrong HeightMap value count, expected 256, got " . count($heightMap));
+			\assert(\count($heightMap) === 0, "Wrong HeightMap value count, expected 256, got " . \count($heightMap));
 			$val = ($this->height * 16) - 1;
-			$this->heightMap = array_fill(0, 256, $val);
+			$this->heightMap = \array_fill(0, 256, $val);
 		}
 
-		if(strlen($biomeIds) === 256){
+		if(\strlen($biomeIds) === 256){
 			$this->biomeIds = $biomeIds;
 		}else{
-			assert(strlen($biomeIds) === 0, "Wrong BiomeIds value count, expected 256, got " . strlen($biomeIds));
-			$this->biomeIds = str_repeat("\x00", 256);
+			\assert(\strlen($biomeIds) === 0, "Wrong BiomeIds value count, expected 256, got " . \strlen($biomeIds));
+			$this->biomeIds = \str_repeat("\x00", 256);
 		}
 
 		$this->NBTtiles = $tiles;
@@ -211,12 +211,12 @@ class Chunk{
 	 *
 	 * @return bool
 	 */
-	public function setBlock(int $x, int $y, int $z, $blockId = null, $meta = null) : bool{
-		if($this->getSubChunk($y >> 4, true)->setBlock($x, $y & 0x0f, $z, $blockId !== null ? ($blockId & 0xff) : null, $meta !== null ? ($meta & 0x0f) : null)){
-			$this->hasChanged = true;
-			return true;
+	public function setBlock(int $x, int $y, int $z, $blockId = \null, $meta = \null) : bool{
+		if($this->getSubChunk($y >> 4, \true)->setBlock($x, $y & 0x0f, $z, $blockId !== \null ? ($blockId & 0xff) : \null, $meta !== \null ? ($meta & 0x0f) : \null)){
+			$this->hasChanged = \true;
+			return \true;
 		}
-		return false;
+		return \false;
 	}
 
 	/**
@@ -241,8 +241,8 @@ class Chunk{
 	 * @param int $id 0-255
 	 */
 	public function setBlockId(int $x, int $y, int $z, int $id){
-		if($this->getSubChunk($y >> 4, true)->setBlockId($x, $y & 0x0f, $z, $id)){
-			$this->hasChanged = true;
+		if($this->getSubChunk($y >> 4, \true)->setBlockId($x, $y & 0x0f, $z, $id)){
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -269,7 +269,7 @@ class Chunk{
 	 */
 	public function setBlockData(int $x, int $y, int $z, int $data){
 		if($this->getSubChunk($y >> 4)->setBlockData($x, $y & 0x0f, $z, $data)){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -301,7 +301,7 @@ class Chunk{
 			$this->extraData[Chunk::chunkBlockHash($x, $y, $z)] = $data;
 		}
 
-		$this->hasChanged = true;
+		$this->hasChanged = \true;
 	}
 
 	/**
@@ -327,7 +327,7 @@ class Chunk{
 	 */
 	public function setBlockSkyLight(int $x, int $y, int $z, int $level){
 		if($this->getSubChunk($y >> 4)->setBlockSkyLight($x, $y & 0x0f, $z, $level)){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -354,7 +354,7 @@ class Chunk{
 	 */
 	public function setBlockLight(int $x, int $y, int $z, int $level){
 		if($this->getSubChunk($y >> 4)->setBlockLight($x, $y & 0x0f, $z, $level)){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -367,7 +367,7 @@ class Chunk{
 	 *
 	 * @return int
 	 */
-	public function getHighestBlockAt(int $x, int $z, bool $useHeightMap = true) : int{
+	public function getHighestBlockAt(int $x, int $z, bool $useHeightMap = \true) : int{
 		if($useHeightMap){
 			$height = $this->getHeightMap($x, $z);
 
@@ -422,7 +422,7 @@ class Chunk{
 	public function recalculateHeightMap(){
 		for($z = 0; $z < 16; ++$z){
 			for($x = 0; $x < 16; ++$x){
-				$this->setHeightMap($x, $z, $this->getHighestBlockAt($x, $z, false));
+				$this->setHeightMap($x, $z, $this->getHighestBlockAt($x, $z, \false));
 			}
 		}
 	}
@@ -466,7 +466,7 @@ class Chunk{
 	 * @return int 0-255
 	 */
 	public function getBiomeId(int $x, int $z) : int{
-		return ord($this->biomeIds{($z << 4) | $x});
+		return \ord($this->biomeIds{($z << 4) | $x});
 	}
 
 	/**
@@ -477,8 +477,8 @@ class Chunk{
 	 * @param int $biomeId 0-255
 	 */
 	public function setBiomeId(int $x, int $z, int $biomeId){
-		$this->hasChanged = true;
-		$this->biomeIds{($z << 4) | $x} = chr($biomeId & 0xff);
+		$this->hasChanged = \true;
+		$this->biomeIds{($z << 4) | $x} = \chr($biomeId & 0xff);
 	}
 
 	/**
@@ -551,7 +551,7 @@ class Chunk{
 	/**
 	 * @param bool $value
 	 */
-	public function setLightPopulated(bool $value = true){
+	public function setLightPopulated(bool $value = \true){
 		$this->lightPopulated = $value;
 	}
 
@@ -565,7 +565,7 @@ class Chunk{
 	/**
 	 * @param bool $value
 	 */
-	public function setPopulated(bool $value = true){
+	public function setPopulated(bool $value = \true){
 		$this->terrainPopulated = $value;
 	}
 
@@ -579,7 +579,7 @@ class Chunk{
 	/**
 	 * @param bool $value
 	 */
-	public function setGenerated(bool $value = true){
+	public function setGenerated(bool $value = \true){
 		$this->terrainGenerated = $value;
 	}
 
@@ -589,7 +589,7 @@ class Chunk{
 	public function addEntity(Entity $entity){
 		$this->entities[$entity->getId()] = $entity;
 		if(!($entity instanceof Player) and $this->isInit){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -599,7 +599,7 @@ class Chunk{
 	public function removeEntity(Entity $entity){
 		unset($this->entities[$entity->getId()]);
 		if(!($entity instanceof Player) and $this->isInit){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -613,7 +613,7 @@ class Chunk{
 		}
 		$this->tileList[$index] = $tile;
 		if($this->isInit){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -624,7 +624,7 @@ class Chunk{
 		unset($this->tiles[$tile->getId()]);
 		unset($this->tileList[(($tile->x & 0x0f) << 12) | (($tile->z & 0x0f) << 8) | ($tile->y & 0xff)]);
 		if($this->isInit){
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -655,14 +655,14 @@ class Chunk{
 	 */
 	public function getTile(int $x, int $y, int $z){
 		$index = ($x << 12) | ($z << 8) | $y;
-		return $this->tileList[$index] ?? null;
+		return $this->tileList[$index] ?? \null;
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isLoaded() : bool{
-		return $this->getProvider() === null ? false : $this->getProvider()->isChunkLoaded($this->getX(), $this->getZ());
+		return $this->getProvider() === \null ? \false : $this->getProvider()->isChunkLoaded($this->getX(), $this->getZ());
 	}
 
 	/**
@@ -670,8 +670,8 @@ class Chunk{
 	 *
 	 * @return bool
 	 */
-	public function load(bool $generate = true) : bool{
-		return $this->getProvider() === null ? false : $this->getProvider()->getChunk($this->getX(), $this->getZ(), true) instanceof Chunk;
+	public function load(bool $generate = \true) : bool{
+		return $this->getProvider() === \null ? \false : $this->getProvider()->getChunk($this->getX(), $this->getZ(), \true) instanceof Chunk;
 	}
 
 	/**
@@ -682,18 +682,18 @@ class Chunk{
 	 *
 	 * @return bool
 	 */
-	public function unload(bool $save = true, bool $safe = true) : bool{
+	public function unload(bool $save = \true, bool $safe = \true) : bool{
 		$level = $this->getProvider();
-		if($level === null){
-			return true;
+		if($level === \null){
+			return \true;
 		}
-		if($save === true and $this->hasChanged){
+		if($save === \true and $this->hasChanged){
 			$level->saveChunk($this->getX(), $this->getZ());
 		}
-		if($safe === true){
+		if($safe === \true){
 			foreach($this->getEntities() as $entity){
 				if($entity instanceof Player){
-					return false;
+					return \false;
 				}
 			}
 		}
@@ -707,8 +707,8 @@ class Chunk{
 		foreach($this->getTiles() as $tile){
 			$tile->close();
 		}
-		$this->provider = null;
-		return true;
+		$this->provider = \null;
+		return \true;
 	}
 
 	/**
@@ -717,25 +717,25 @@ class Chunk{
 	 */
 	public function initChunk(){
 		if($this->getProvider() instanceof LevelProvider and !$this->isInit){
-			$changed = false;
-			if($this->NBTentities !== null){
+			$changed = \false;
+			if($this->NBTentities !== \null){
 				$this->getProvider()->getLevel()->timings->syncChunkLoadEntitiesTimer->startTiming();
 				foreach($this->NBTentities as $nbt){
 					if($nbt instanceof CompoundTag){
 						if(!isset($nbt->id)){
-							$changed = true;
+							$changed = \true;
 							continue;
 						}
 
 						if(($nbt["Pos"][0] >> 4) !== $this->x or ($nbt["Pos"][2] >> 4) !== $this->z){
-							$changed = true;
+							$changed = \true;
 							continue; //Fixes entities allocated in wrong chunks.
 						}
 
 						if(($entity = Entity::createEntity($nbt["id"], $this, $nbt)) instanceof Entity){
 							$entity->spawnToAll();
 						}else{
-							$changed = true;
+							$changed = \true;
 							continue;
 						}
 					}
@@ -746,17 +746,17 @@ class Chunk{
 				foreach($this->NBTtiles as $nbt){
 					if($nbt instanceof CompoundTag){
 						if(!isset($nbt->id)){
-							$changed = true;
+							$changed = \true;
 							continue;
 						}
 
 						if(($nbt["x"] >> 4) !== $this->x or ($nbt["z"] >> 4) !== $this->z){
-							$changed = true;
+							$changed = \true;
 							continue; //Fixes tiles allocated in wrong chunks.
 						}
 
-						if(Tile::createTile($nbt["id"], $this, $nbt) === null){
-							$changed = true;
+						if(Tile::createTile($nbt["id"], $this, $nbt) === \null){
+							$changed = \true;
 							continue;
 						}
 					}
@@ -764,13 +764,13 @@ class Chunk{
 
 				$this->getProvider()->getLevel()->timings->syncChunkLoadTileEntitiesTimer->stopTiming();
 
-				$this->NBTentities = null;
-				$this->NBTtiles = null;
+				$this->NBTentities = \null;
+				$this->NBTtiles = \null;
 			}
 
 			$this->hasChanged = $changed;
 
-			$this->isInit = true;
+			$this->isInit = \true;
 		}
 	}
 
@@ -805,7 +805,7 @@ class Chunk{
 	/**
 	 * @param bool $value
 	 */
-	public function setChanged(bool $value = true){
+	public function setChanged(bool $value = \true){
 		$this->hasChanged = $value;
 	}
 
@@ -817,13 +817,13 @@ class Chunk{
 	 *
 	 * @return SubChunk|EmptySubChunk
 	 */
-	public function getSubChunk(int $y, bool $generateNew = false) : SubChunk{
+	public function getSubChunk(int $y, bool $generateNew = \false) : SubChunk{
 		if($y < 0 or $y >= $this->height){
 			return $this->emptySubChunk;
 		}elseif($generateNew and $this->subChunks[$y] instanceof EmptySubChunk){
 			$this->subChunks[$y] = new SubChunk();
 		}
-		assert($this->subChunks[$y] !== null, "Somehow something broke, no such subchunk at index $y");
+		\assert($this->subChunks[$y] !== \null, "Somehow something broke, no such subchunk at index $y");
 		return $this->subChunks[$y];
 	}
 
@@ -835,17 +835,17 @@ class Chunk{
 	 *
 	 * @return bool
 	 */
-	public function setSubChunk(int $y, SubChunk $subChunk = null, bool $allowEmpty = false) : bool{
+	public function setSubChunk(int $y, SubChunk $subChunk = \null, bool $allowEmpty = \false) : bool{
 		if($y < 0 or $y >= $this->height){
-			return false;
+			return \false;
 		}
-		if($subChunk === null or ($subChunk->isEmpty() and !$allowEmpty)){
+		if($subChunk === \null or ($subChunk->isEmpty() and !$allowEmpty)){
 			$this->subChunks[$y] = $this->emptySubChunk;
 		}else{
 			$this->subChunks[$y] = $subChunk;
 		}
-		$this->hasChanged = true;
-		return true;
+		$this->hasChanged = \true;
+		return \true;
 	}
 
 	/**
@@ -861,8 +861,8 @@ class Chunk{
 	 * @return int
 	 */
 	public function getHighestSubChunkIndex() : int{
-		for($y = count($this->subChunks) - 1; $y >= 0; --$y){
-			if($this->subChunks[$y] === null or $this->subChunks[$y] instanceof EmptySubChunk){
+		for($y = \count($this->subChunks) - 1; $y >= 0; --$y){
+			if($this->subChunks[$y] === \null or $this->subChunks[$y] instanceof EmptySubChunk){
 				//No need to thoroughly prune empties at runtime, this will just reduce performance.
 				continue;
 			}
@@ -887,7 +887,7 @@ class Chunk{
 	public function pruneEmptySubChunks(){
 		foreach($this->subChunks as $y => $subChunk){
 			if($y < 0 or $y >= $this->height){
-				assert(false, "Invalid subchunk index");
+				\assert(\false, "Invalid subchunk index");
 				unset($this->subChunks[$y]);
 			}elseif($subChunk instanceof EmptySubChunk){
 				continue;
@@ -896,7 +896,7 @@ class Chunk{
 			}else{
 				continue; //do not set changed
 			}
-			$this->hasChanged = true;
+			$this->hasChanged = \true;
 		}
 	}
 
@@ -908,24 +908,24 @@ class Chunk{
 	public function networkSerialize() : string{
 		$result = "";
 		$subChunkCount = $this->getSubChunkSendCount();
-		$result .= chr($subChunkCount);
+		$result .= \chr($subChunkCount);
 		for($y = 0; $y < $subChunkCount; ++$y){
 			$result .= $this->subChunks[$y]->networkSerialize();
 		}
-		$result .= pack("v*", ...$this->heightMap)
+		$result .= \pack("v*", ...$this->heightMap)
 		        .  $this->biomeIds
-		        .  chr(0); //border block array count
+		        .  \chr(0); //border block array count
 		//Border block entry format: 1 byte (4 bits X, 4 bits Z). These are however useless since they crash the regular client.
 
 		$extraData = new BinaryStream();
-		$extraData->putVarInt(count($this->extraData)); //WHY, Mojang, WHY
+		$extraData->putVarInt(\count($this->extraData)); //WHY, Mojang, WHY
 		foreach($this->extraData as $key => $value){
 			$extraData->putVarInt($key);
 			$extraData->putLShort($value);
 		}
 		$result .= $extraData->getBuffer();
 
-		if(count($this->tiles) > 0){
+		if(\count($this->tiles) > 0){
 			$nbt = new NBT(NBT::LITTLE_ENDIAN);
 			$list = [];
 			foreach($this->tiles as $tile){
@@ -934,7 +934,7 @@ class Chunk{
 				}
 			}
 			$nbt->setData($list);
-			$result .= $nbt->write(true);
+			$result .= $nbt->write(\true);
 		}
 
 		return $result;
@@ -957,13 +957,13 @@ class Chunk{
 				continue;
 			}
 			++$count;
-			$subChunks .= chr($y) . $subChunk->fastSerialize();
+			$subChunks .= \chr($y) . $subChunk->fastSerialize();
 		}
 		$stream->putByte($count);
 		$stream->put($subChunks);
-		$stream->put(pack("C*", ...$this->heightMap) .
+		$stream->put(\pack("C*", ...$this->heightMap) .
 			$this->biomeIds .
-			chr(($this->lightPopulated ? 1 << 2 : 0) | ($this->terrainPopulated ? 1 << 1 : 0) | ($this->terrainGenerated ? 1 : 0)));
+			\chr(($this->lightPopulated ? 1 << 2 : 0) | ($this->terrainPopulated ? 1 << 1 : 0) | ($this->terrainGenerated ? 1 : 0)));
 		return $stream->getBuffer();
 	}
 
@@ -975,10 +975,10 @@ class Chunk{
 	 *
 	 * @return Chunk
 	 */
-	public static function fastDeserialize(string $data, LevelProvider $provider = null){
+	public static function fastDeserialize(string $data, LevelProvider $provider = \null){
 		$stream = new BinaryStream();
 		$stream->setBuffer($data);
-		$data = null;
+		$data = \null;
 		$x = $stream->getInt();
 		$z = $stream->getInt();
 		$subChunks = [];
@@ -986,7 +986,7 @@ class Chunk{
 		for($y = 0; $y < $count; ++$y){
 			$subChunks[$stream->getByte()] = SubChunk::fastDeserialize($stream->get(10240));
 		}
-		$heightMap = array_values(unpack("C*", $stream->get(256)));
+		$heightMap = \array_values(\unpack("C*", $stream->get(256)));
 		$biomeIds = $stream->get(256);
 
 		$chunk = new Chunk($provider, $x, $z, $subChunks, [], [], $biomeIds, $heightMap);
@@ -998,7 +998,7 @@ class Chunk{
 	}
 
 	//TODO: get rid of this
-	public static function getEmptyChunk(int $x, int $z, LevelProvider $provider = null) : Chunk{
+	public static function getEmptyChunk(int $x, int $z, LevelProvider $provider = \null) : Chunk{
 		return new Chunk($provider, $x, $z);
 	}
 
@@ -1024,7 +1024,7 @@ class Chunk{
 	 * @return string length 4096
 	 */
 	public static final function reorderByteArray(string $array) : string{
-		$result = str_repeat("\x00", 4096);
+		$result = \str_repeat("\x00", 4096);
 		$i = 0;
 		for($x = 0; $x < 16; ++$x){
 			for($z = 0; $z < 256; $z += 16){
@@ -1046,17 +1046,17 @@ class Chunk{
 	 * @return string length 2048
 	 */
 	public static final function reorderNibbleArray(string $array) : string{
-		$result = str_repeat("\x00", 2048);
+		$result = \str_repeat("\x00", 2048);
 		$i = 0;
 		for($x = 0; $x < 8; ++$x){
 			for($z = 0; $z < 16; ++$z){
 				$zx = (($z << 3) | $x);
 				for($y = 0; $y < 8; ++$y){
 					$j = (($y << 8) | $zx);
-					$i1 = ord($array{$j});
-					$i2 = ord($array{$j | 0x80});
-					$result{$i}        = chr(($i2 << 4) | ($i1 & 0x0f));
-					$result{$i | 0x80} = chr(($i1 >> 4) | ($i2 & 0xf0));
+					$i1 = \ord($array{$j});
+					$i2 = \ord($array{$j | 0x80});
+					$result{$i}        = \chr(($i2 << 4) | ($i1 & 0x0f));
+					$result{$i | 0x80} = \chr(($i1 >> 4) | ($i2 & 0xf0));
 					$i++;
 				}
 			}
@@ -1073,9 +1073,9 @@ class Chunk{
 	 * @return string
 	 */
 	public static function convertBiomeColours(array $array) : string{
-		$result = str_repeat("\x00", 256);
+		$result = \str_repeat("\x00", 256);
 		foreach($array as $i => $colour){
-			$result{$i} = chr(($array[$i] >> 24) & 0xff);
+			$result{$i} = \chr(($array[$i] >> 24) & 0xff);
 		}
 		return $result;
 	}

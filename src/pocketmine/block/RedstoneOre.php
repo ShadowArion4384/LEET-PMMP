@@ -42,8 +42,8 @@ class RedstoneOre extends Solid{
 		return 3;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		return $this->getLevel()->setBlock($this, $this, true, false);
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
+		return $this->getLevel()->setBlock($this, $this, \true, \false);
 	}
 
 	public function onUpdate($type){
@@ -53,7 +53,7 @@ class RedstoneOre extends Solid{
 			return Level::BLOCK_UPDATE_WEAK;
 		}
 
-		return false;
+		return \false;
 	}
 
 	public function getToolType(){
@@ -63,7 +63,7 @@ class RedstoneOre extends Solid{
 	public function getDrops(Item $item){
 		if($item->isPickaxe() >= Tool::TIER_IRON){
 			return [
-				[Item::REDSTONE_DUST, 0, mt_rand(4, 5)],
+				[Item::REDSTONE_DUST, 0, \mt_rand(4, 5)],
 			];
 		}else{
 			return [];

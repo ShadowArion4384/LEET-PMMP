@@ -42,13 +42,13 @@ class FlowerPot extends Spawnable{
 
 	public function canAddItem(Item $item): bool{
 		if(!$this->isEmpty()){
-			return false;
+			return \false;
 		}
 		switch($item->getId()){
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case Item::TALL_GRASS:
 				if($item->getDamage() === 1){
-					return false;
+					return \false;
 				}
 			case Item::SAPLING:
 			case Item::DEAD_BUSH:
@@ -57,9 +57,9 @@ class FlowerPot extends Spawnable{
 			case Item::BROWN_MUSHROOM:
 			case Item::RED_MUSHROOM:
 			case Item::CACTUS:
-				return true;
+				return \true;
 			default:
-				return false;
+				return \false;
 		}
 	}
 

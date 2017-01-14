@@ -46,6 +46,6 @@ class WallSign extends SignPost{
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
-		return false;
+		return \false;
 	}
 }

@@ -36,8 +36,8 @@ class GeneratorRegisterTask extends AsyncTask{
 	public $levelId;
 
 	public function __construct(Level $level, Generator $generator){
-		$this->generator = get_class($generator);
-		$this->settings = serialize($generator->getSettings());
+		$this->generator = \get_class($generator);
+		$this->settings = \serialize($generator->getSettings());
 		$this->seed = $level->getSeed();
 		$this->levelId = $level->getId();
 	}
@@ -49,7 +49,7 @@ class GeneratorRegisterTask extends AsyncTask{
 		$this->saveToThreadStore("generation.level{$this->levelId}.manager", $manager);
 		/** @var Generator $generator */
 		$generator = $this->generator;
-		$generator = new $generator(unserialize($this->settings));
+		$generator = new $generator(\unserialize($this->settings));
 		$generator->init($manager, new Random($manager->getSeed()));
 		$this->saveToThreadStore("generation.level{$this->levelId}.generator", $generator);
 	}

@@ -53,13 +53,9 @@ while [ "$LOOPS" -eq 0 ] || [ "$DO_LOOP" == "yes" ]; do
 	else
 		exec "$PHP_BINARY" "$POCKETMINE_FILE" $@
 	fi
-	if [ "$DO_LOOP" == "yes" ]; then
-		if [ ${LOOPS} -gt 0 ]; then
-			echo "Restarted $LOOPS times"
-		fi 
-		echo "To escape the loop, press CTRL+C now. Otherwise, wait 5 seconds for the server to restart."
-		echo ""
-		sleep 5
-		((LOOPS++))
-	fi
+	((LOOPS++))
 done
+
+if [ ${LOOPS} -gt 1 ]; then
+	echo "Restarted $LOOPS times"
+fi

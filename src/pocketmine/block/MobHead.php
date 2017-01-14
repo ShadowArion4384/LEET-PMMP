@@ -60,15 +60,15 @@ class MobHead extends Flowable{
 		);
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		if($face !== 0){
 			$this->meta = $face;
 			if($face === 1){
-				$rot = floor(($player->yaw * 16 / 360) + 0.5) & 0x0F;
+				$rot = \floor(($player->yaw * 16 / 360) + 0.5) & 0x0F;
 			}else{
 				$rot = $face;
 			}
-			$this->getLevel()->setBlock($block, $this, true);
+			$this->getLevel()->setBlock($block, $this, \true);
 			$nbt = new CompoundTag("", [
 				new StringTag("id", Tile::SKULL),
 				new ByteTag("SkullType", $item->getDamage()),
@@ -82,9 +82,9 @@ class MobHead extends Flowable{
 			}
 			/** @var Spawnable $tile */
 			Tile::createTile("Skull", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-			return true;
+			return \true;
 		}
-		return false;
+		return \false;
 	}
 
 	public function onUpdate($type){

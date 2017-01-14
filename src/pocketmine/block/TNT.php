@@ -48,13 +48,13 @@ class TNT extends Solid{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		if($item->getId() === Item::FLINT_STEEL){
 			$item->useOn($this);
-			$this->getLevel()->setBlock($this, new Air(), true);
+			$this->getLevel()->setBlock($this, new Air(), \true);
 
 			$mot = (new Random())->nextSignedFloat() * M_PI * 2;
 			$tnt = Entity::createEntity("PrimedTNT", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), new CompoundTag("", [
@@ -64,9 +64,9 @@ class TNT extends Solid{
 					new DoubleTag("", $this->z + 0.5)
 				]),
 				"Motion" => new ListTag("Motion", [
-					new DoubleTag("", -sin($mot) * 0.02),
+					new DoubleTag("", -\sin($mot) * 0.02),
 					new DoubleTag("", 0.2),
-					new DoubleTag("", -cos($mot) * 0.02)
+					new DoubleTag("", -\cos($mot) * 0.02)
 				]),
 				"Rotation" => new ListTag("Rotation", [
 					new FloatTag("", 0),
@@ -77,9 +77,9 @@ class TNT extends Solid{
 
 			$tnt->spawnToAll();
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 }

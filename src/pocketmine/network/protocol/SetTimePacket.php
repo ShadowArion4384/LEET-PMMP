@@ -27,7 +27,7 @@ class SetTimePacket extends DataPacket{
 	const NETWORK_ID = Info::SET_TIME_PACKET;
 
 	public $time;
-	public $started = true;
+	public $started = \true;
 
 	public function decode(){
 

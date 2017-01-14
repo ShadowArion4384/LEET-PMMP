@@ -54,7 +54,7 @@ class CommandStepPacket extends DataPacket{
 		$this->uvarint2 = $this->getUnsignedVarInt();
 		$this->bool = (bool) $this->getByte();
 		$this->uvarint64 = $this->getUnsignedVarInt(); //TODO: varint64
-		$this->args = json_decode($this->getString());
+		$this->args = \json_decode($this->getString());
 		$this->string4 = $this->getString();
 		while(!$this->feof()){
 			$this->getByte(); //prevent assertion errors. TODO: find out why there are always 3 extra bytes at the end of this packet.

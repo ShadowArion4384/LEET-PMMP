@@ -33,12 +33,12 @@ class FlintSteel extends Tool{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		if($block->getId() === self::AIR and ($target instanceof Solid)){
-			$level->setBlock($block, new Fire(), true);
+			$level->setBlock($block, new Fire(), \true);
 			if(($player->gamemode & 0x01) === 0 and $this->useOn($block)){
 				if($this->getDamage() >= $this->getMaxDurability()){
 					$player->getInventory()->setItemInHand(new Item(Item::AIR, 0, 0));
@@ -48,9 +48,9 @@ class FlintSteel extends Tool{
 				}
 			}
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 }

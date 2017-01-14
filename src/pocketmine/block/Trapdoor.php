@@ -51,7 +51,7 @@ class Trapdoor extends Transparent{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
 	protected function recalculateBoundingBox(){
@@ -125,21 +125,21 @@ class Trapdoor extends Transparent{
 		return $bb;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		$directions = [
 			0 => 1,
 			1 => 3,
 			2 => 0,
 			3 => 2
 		];
-		if($player !== null){
+		if($player !== \null){
 			$this->meta = $directions[$player->getDirection() & 0x03];
 		}
 		if(($fy > 0.5 and $face !== self::SIDE_UP) or $face === self::SIDE_DOWN){
 			$this->meta |= self::MASK_UPPER; //top half of block
 		}
-		$this->getLevel()->setBlock($block, $this, true, true);
-		return true;
+		$this->getLevel()->setBlock($block, $this, \true, \true);
+		return \true;
 	}
 
 	public function getDrops(Item $item){
@@ -148,11 +148,11 @@ class Trapdoor extends Transparent{
 		];
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		$this->meta ^= self::MASK_OPENED;
-		$this->getLevel()->setBlock($this, $this, true);
+		$this->getLevel()->setBlock($this, $this, \true);
 		$this->level->addSound(new DoorSound($this));
-		return true;
+		return \true;
 	}
 
 	public function getToolType(){

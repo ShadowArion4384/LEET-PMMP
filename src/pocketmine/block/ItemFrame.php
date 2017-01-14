@@ -42,10 +42,10 @@ class ItemFrame extends Flowable{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		if(!(($tile = $this->level->getTile($this)) instanceof TileItemFrame)){
 			$nbt = new CompoundTag("", [
 				new StringTag("id", Tile::ITEM_FRAME),
@@ -72,13 +72,13 @@ class ItemFrame extends Flowable{
 			}
 		}
 
-		return true;
+		return \true;
 	}
 
 	public function onBreak(Item $item){
 		if(($tile = $this->level->getTile($this)) instanceof TileItemFrame){
 			//TODO: add events
-			if(lcg_value() <= $tile->getItemDropChance() and $tile->getItem()->getId() !== Item::AIR){
+			if(\lcg_value() <= $tile->getItemDropChance() and $tile->getItem()->getId() !== Item::AIR){
 				$this->level->dropItem($tile->getBlock(), $tile->getItem());
 			}
 		}
@@ -98,12 +98,12 @@ class ItemFrame extends Flowable{
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
-		return false;
+		return \false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		if($face === 0 or $face === 1){
-			return false;
+			return \false;
 		}
 
 		$faces = [
@@ -114,7 +114,7 @@ class ItemFrame extends Flowable{
 		];
 
 		$this->meta = $faces[$face];
-		$this->level->setBlock($block, $this, true, true);
+		$this->level->setBlock($block, $this, \true, \true);
 
 		$nbt = new CompoundTag("", [
 			new StringTag("id", Tile::ITEM_FRAME),
@@ -133,7 +133,7 @@ class ItemFrame extends Flowable{
 
 		Tile::createTile(Tile::ITEM_FRAME, $this->level->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 
-		return true;
+		return \true;
 
 	}
 

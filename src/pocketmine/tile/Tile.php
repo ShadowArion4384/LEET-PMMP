@@ -55,7 +55,7 @@ abstract class Tile extends Position{
 	public $id;
 	public $attach;
 	public $metadata;
-	public $closed = false;
+	public $closed = \false;
 	public $namedtag;
 	protected $lastUpdate;
 	protected $server;
@@ -88,7 +88,7 @@ abstract class Tile extends Position{
 			return new $class($chunk, $nbt, ...$args);
 		}
 
-		return null;
+		return \null;
 	}
 
 	/**
@@ -98,13 +98,13 @@ abstract class Tile extends Position{
 	 */
 	public static function registerTile($className){
 		$class = new \ReflectionClass($className);
-		if(is_a($className, Tile::class, true) and !$class->isAbstract()){
+		if(\is_a($className, Tile::class, \true) and !$class->isAbstract()){
 			self::$knownTiles[$class->getShortName()] = $className;
 			self::$shortNames[$className] = $class->getShortName();
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 
 	/**
@@ -117,7 +117,7 @@ abstract class Tile extends Position{
 	}
 
 	public function __construct(Chunk $chunk, CompoundTag $nbt){
-		assert($chunk !== null and $chunk->getProvider() !== null);
+		\assert($chunk !== \null and $chunk->getProvider() !== \null);
 
 		$this->timings = Timings::getTileEntityTimings($this);
 
@@ -126,7 +126,7 @@ abstract class Tile extends Position{
 		$this->setLevel($chunk->getProvider()->getLevel());
 		$this->namedtag = $nbt;
 		$this->name = "";
-		$this->lastUpdate = microtime(true);
+		$this->lastUpdate = \microtime(\true);
 		$this->id = Tile::$tileCount++;
 		$this->x = (int) $this->namedtag["x"];
 		$this->y = (int) $this->namedtag["y"];
@@ -156,7 +156,7 @@ abstract class Tile extends Position{
 	}
 
 	public function onUpdate(){
-		return false;
+		return \false;
 	}
 
 	public final function scheduleUpdate(){
@@ -169,7 +169,7 @@ abstract class Tile extends Position{
 
 	public function close(){
 		if(!$this->closed){
-			$this->closed = true;
+			$this->closed = \true;
 			unset($this->level->updateTiles[$this->id]);
 			if($this->chunk instanceof Chunk){
 				$this->chunk->removeTile($this);
@@ -177,7 +177,7 @@ abstract class Tile extends Position{
 			if(($level = $this->getLevel()) instanceof Level){
 				$level->removeTile($this);
 			}
-			$this->level = null;
+			$this->level = \null;
 		}
 	}
 

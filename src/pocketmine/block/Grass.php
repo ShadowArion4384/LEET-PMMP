@@ -40,7 +40,7 @@ class Grass extends Solid{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
 	public function getName(){
@@ -68,9 +68,9 @@ class Grass extends Solid{
 				Server::getInstance()->getPluginManager()->callEvent($ev = new BlockSpreadEvent($block, $this, new Dirt()));
 			}elseif($block->getSide(1)->getLightLevel() >= 9){
 				for($l = 0; $l < 4; ++$l){
-					$x = mt_rand($this->x - 1, $this->x + 1);
-					$y = mt_rand($this->y - 2, $this->y + 2);
-					$z = mt_rand($this->z - 1, $this->z + 1);
+					$x = \mt_rand($this->x - 1, $this->x + 1);
+					$y = \mt_rand($this->y - 2, $this->y + 2);
+					$z = \mt_rand($this->z - 1, $this->z + 1);
 					$block = $this->getLevel()->getBlock(new Vector3($x, $y, $z));
 					if($block->getId() === Block::DIRT && $block->getDamage() === 0x0F && $block->getSide(1)->getLightLevel() >= 4 && $block->z <= 2){
 						Server::getInstance()->getPluginManager()->callEvent($ev = new BlockSpreadEvent($block, $this, new Grass()));
@@ -83,24 +83,24 @@ class Grass extends Solid{
 		}
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){
 			$item->count--;
-			TallGrassObject::growGrass($this->getLevel(), $this, new Random(mt_rand()), 8, 2);
+			TallGrassObject::growGrass($this->getLevel(), $this, new Random(\mt_rand()), 8, 2);
 
-			return true;
+			return \true;
 		}elseif($item->isHoe()){
 			$item->useOn($this);
 			$this->getLevel()->setBlock($this, new Farmland());
 
-			return true;
+			return \true;
 		}elseif($item->isShovel() and $this->getSide(1)->getId() === Block::AIR){
 			$item->useOn($this);
 			$this->getLevel()->setBlock($this, new GrassPath());
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 }

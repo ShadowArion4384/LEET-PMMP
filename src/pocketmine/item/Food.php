@@ -29,7 +29,7 @@ use pocketmine\Player;
 
 abstract class Food extends Item implements FoodSource{
 	public function canBeConsumed() : bool{
-		return true;
+		return \true;
 	}
 
 	public function canBeConsumedBy(Entity $entity) : bool{

@@ -55,7 +55,7 @@ class Anvil extends McRegion{
 			if($subChunk->isEmpty()){
 				continue;
 			}
-			$nbt->Sections[++$subChunks] = new CompoundTag(null, [
+			$nbt->Sections[++$subChunks] = new CompoundTag(\null, [
 				"Y"          => new ByteTag("Y", $y),
 				"Blocks"     => new ByteArrayTag("Blocks", Chunk::reorderByteArray($subChunk->getBlockIdArray())), //Generic in-memory chunks are currently always XZY
 				"Data"       => new ByteArrayTag("Data", Chunk::reorderNibbleArray($subChunk->getBlockDataArray())),
@@ -142,13 +142,13 @@ class Anvil extends McRegion{
 				$biomeIds,
 				isset($chunk->HeightMap) ? $chunk->HeightMap->getValue() : []
 			);
-			$result->setLightPopulated(isset($chunk->LightPopulated) ? ((bool) $chunk->LightPopulated->getValue()) : false);
-			$result->setPopulated(isset($chunk->TerrainPopulated) ? ((bool) $chunk->TerrainPopulated->getValue()) : false);
-			$result->setGenerated(true);
+			$result->setLightPopulated(isset($chunk->LightPopulated) ? ((bool) $chunk->LightPopulated->getValue()) : \false);
+			$result->setPopulated(isset($chunk->TerrainPopulated) ? ((bool) $chunk->TerrainPopulated->getValue()) : \false);
+			$result->setGenerated(\true);
 			return $result;
 		}catch(\Throwable $e){
 			MainLogger::getLogger()->logException($e);
-			return null;
+			return \null;
 		}
 	}
 

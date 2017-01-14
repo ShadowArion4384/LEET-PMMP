@@ -29,7 +29,7 @@ class Potion extends Item{
 	}
 
 	public function canBeConsumed() : bool{
-		return true;
+		return \true;
 	}
 
 	public function onConsume(Entity $entity){

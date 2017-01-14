@@ -59,7 +59,7 @@ class PMAnvil extends Anvil{
 			if($subChunk->isEmpty()){
 				continue;
 			}
-			$nbt->Sections[++$subChunks] = new CompoundTag(null, [
+			$nbt->Sections[++$subChunks] = new CompoundTag(\null, [
 				"Y"          => new ByteTag("Y", $y),
 				"Blocks"     => new ByteArrayTag("Blocks",     $subChunk->getBlockIdArray()),
 				"Data"       => new ByteArrayTag("Data",       $subChunk->getBlockDataArray()),
@@ -138,13 +138,13 @@ class PMAnvil extends Anvil{
 				isset($chunk->Biomes) ? $chunk->Biomes->getValue() : "",
 				isset($chunk->HeightMap) ? $chunk->HeightMap->getValue() : []
 			);
-			$result->setLightPopulated(isset($chunk->LightPopulated) ? ((bool) $chunk->LightPopulated->getValue()) : false);
-			$result->setPopulated(isset($chunk->TerrainPopulated) ? ((bool) $chunk->TerrainPopulated->getValue()) : false);
-			$result->setGenerated(true);
+			$result->setLightPopulated(isset($chunk->LightPopulated) ? ((bool) $chunk->LightPopulated->getValue()) : \false);
+			$result->setPopulated(isset($chunk->TerrainPopulated) ? ((bool) $chunk->TerrainPopulated->getValue()) : \false);
+			$result->setGenerated(\true);
 			return $result;
 		}catch(\Throwable $e){
 			MainLogger::getLogger()->logException($e);
-			return null;
+			return \null;
 		}
 	}
 

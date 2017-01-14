@@ -127,7 +127,7 @@ abstract class Stair extends Transparent{
 		}
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		$faces = [
 			0 => 0,
 			1 => 2,
@@ -138,9 +138,9 @@ abstract class Stair extends Transparent{
 		if(($fy > 0.5 and $face !== 1) or $face === 0){
 			$this->meta |= 0x04; //Upside-down stairs
 		}
-		$this->getLevel()->setBlock($block, $this, true, true);
+		$this->getLevel()->setBlock($block, $this, \true, \true);
 
-		return true;
+		return \true;
 	}
 
 	public function getDrops(Item $item){

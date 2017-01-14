@@ -62,9 +62,9 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 			}
 		}
 
-		assert(false, "Offset $offset not found");
+		\assert(\false, "Offset $offset not found");
 
-		return null;
+		return \null;
 	}
 
 	public function offsetSet($offset, $value){
@@ -83,7 +83,7 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 		return NBT::TAG_Compound;
 	}
 
-	public function read(NBT $nbt, bool $network = false){
+	public function read(NBT $nbt, bool $network = \false){
 		$this->value = [];
 		do{
 			$tag = $nbt->readTag($network);
@@ -93,7 +93,7 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 		}while(!($tag instanceof EndTag) and !$nbt->feof());
 	}
 
-	public function write(NBT $nbt, bool $network = false){
+	public function write(NBT $nbt, bool $network = \false){
 		foreach($this as $tag){
 			if($tag instanceof Tag and !($tag instanceof EndTag)){
 				$nbt->writeTag($tag, $network);
@@ -103,10 +103,10 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 	}
 
 	public function __toString(){
-		$str = get_class($this) . "{\n";
+		$str = \get_class($this) . "{\n";
 		foreach($this as $tag){
 			if($tag instanceof Tag){
-				$str .= get_class($tag) . ":" . $tag->__toString() . "\n";
+				$str .= \get_class($tag) . ":" . $tag->__toString() . "\n";
 			}
 		}
 		return $str . "}";

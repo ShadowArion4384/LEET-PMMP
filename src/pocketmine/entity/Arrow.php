@@ -41,14 +41,14 @@ class Arrow extends Projectile{
 
 	protected $isCritical;
 
-	public function __construct(Chunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null, $critical = false){
+	public function __construct(Chunk $chunk, CompoundTag $nbt, Entity $shootingEntity = \null, $critical = \false){
 		$this->isCritical = (bool) $critical;
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 
 	public function onUpdate($currentTick){
 		if($this->closed){
-			return false;
+			return \false;
 		}
 
 		$this->timings->startTiming();
@@ -57,16 +57,16 @@ class Arrow extends Projectile{
 
 		if(!$this->hadCollision and $this->isCritical){
 			$this->level->addParticle(new CriticalParticle($this->add(
-				$this->width / 2 + mt_rand(-100, 100) / 500,
-				$this->height / 2 + mt_rand(-100, 100) / 500,
-				$this->width / 2 + mt_rand(-100, 100) / 500)));
+				$this->width / 2 + \mt_rand(-100, 100) / 500,
+				$this->height / 2 + \mt_rand(-100, 100) / 500,
+				$this->width / 2 + \mt_rand(-100, 100) / 500)));
 		}elseif($this->onGround){
-			$this->isCritical = false;
+			$this->isCritical = \false;
 		}
 
 		if($this->age > 1200){
 			$this->kill();
-			$hasUpdate = true;
+			$hasUpdate = \true;
 		}
 
 		$this->timings->stopTiming();

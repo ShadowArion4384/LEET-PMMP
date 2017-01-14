@@ -38,7 +38,7 @@ class LoginPacket extends DataPacket{
 	public $serverAddress;
 
 	public $skinId;
-	public $skin = null;
+	public $skin = \null;
 
 	public function decode(){
 		$this->protocol = $this->getInt();
@@ -49,11 +49,11 @@ class LoginPacket extends DataPacket{
 
 		$this->gameEdition = $this->getByte();
 
-		$str = zlib_decode($this->getString(), 1024 * 1024 * 64);
+		$str = \zlib_decode($this->getString(), 1024 * 1024 * 64);
 
 		$this->setBuffer($str, 0);
 
-		$chainData = json_decode($this->get($this->getLInt()));
+		$chainData = \json_decode($this->get($this->getLInt()));
 		foreach($chainData->{"chain"} as $chain){
 			$webtoken = $this->decodeToken($chain);
 			if(isset($webtoken["extraData"])){
@@ -77,7 +77,7 @@ class LoginPacket extends DataPacket{
 			$this->serverAddress = $skinToken["ServerAddress"];
 		}
 		if(isset($skinToken["SkinData"])){
-			$this->skin = base64_decode($skinToken["SkinData"]);
+			$this->skin = \base64_decode($skinToken["SkinData"]);
 		}
 		if(isset($skinToken["SkinId"])){
 			$this->skinId = $skinToken["SkinId"];
@@ -89,9 +89,9 @@ class LoginPacket extends DataPacket{
 	}
 
 	public function decodeToken($token){
-		$tokens = explode(".", $token);
+		$tokens = \explode(".", $token);
 		list($headB64, $payloadB64, $sigB64) = $tokens;
 
-		return json_decode(base64_decode($payloadB64), true);
+		return \json_decode(\base64_decode($payloadB64), \true);
 	}
 }

@@ -44,7 +44,7 @@ class SignPost extends Transparent{
 	}
 
 	public function isSolid(){
-		return false;
+		return \false;
 	}
 
 	public function getName(){
@@ -52,11 +52,11 @@ class SignPost extends Transparent{
 	}
 
 	public function getBoundingBox(){
-		return null;
+		return \null;
 	}
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
 		if($face !== 0){
 			$nbt = new CompoundTag("", [
 				"id" => new StringTag("id", Tile::SIGN),
@@ -69,7 +69,7 @@ class SignPost extends Transparent{
 				"Text4" => new StringTag("Text4", "")
 			]);
 
-			if($player !== null){
+			if($player !== \null){
 				$nbt->Creator = new StringTag("Creator", $player->getRawUniqueId());
 			}
 
@@ -80,19 +80,19 @@ class SignPost extends Transparent{
 			}
 
 			if($face === 1){
-				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0f;
-				$this->getLevel()->setBlock($block, $this, true);
+				$this->meta = \floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0f;
+				$this->getLevel()->setBlock($block, $this, \true);
 			}else{
 				$this->meta = $face;
-				$this->getLevel()->setBlock($block, new WallSign($this->meta), true);
+				$this->getLevel()->setBlock($block, new WallSign($this->meta), \true);
 			}
 
 			Tile::createTile(Tile::SIGN, $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 
 	public function onUpdate($type){
@@ -104,7 +104,7 @@ class SignPost extends Transparent{
 			}
 		}
 
-		return false;
+		return \false;
 	}
 
 	public function getDrops(Item $item){

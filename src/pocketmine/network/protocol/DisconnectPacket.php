@@ -27,7 +27,7 @@ namespace pocketmine\network\protocol;
 class DisconnectPacket extends DataPacket{
 	const NETWORK_ID = Info::DISCONNECT_PACKET;
 
-	public $hideDisconnectionScreen = false;
+	public $hideDisconnectionScreen = \false;
 	public $message;
 
 	public function decode(){

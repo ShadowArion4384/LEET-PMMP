@@ -31,12 +31,12 @@ class ByteArrayTag extends NamedTag{
 		return NBT::TAG_ByteArray;
 	}
 
-	public function read(NBT $nbt, bool $network = false){
+	public function read(NBT $nbt, bool $network = \false){
 		$this->value = $nbt->get($nbt->getInt($network));
 	}
 
-	public function write(NBT $nbt, bool $network = false){
-		$nbt->putInt(strlen($this->value), $network);
+	public function write(NBT $nbt, bool $network = \false){
+		$nbt->putInt(\strlen($this->value), $network);
 		$nbt->put($this->value);
 	}
 }

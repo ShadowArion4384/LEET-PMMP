@@ -33,12 +33,12 @@ use pocketmine\utils\TextFormat;
 
 abstract class Command{
 	/** @var \stdClass */
-	private static $defaultDataTemplate = null;
+	private static $defaultDataTemplate = \null;
 
 	/** @var string */
 	private $name;
 	/** @var \stdClass */
-	protected $commandData = null;
+	protected $commandData = \null;
 
 	/** @var string */
 	private $nextLabel;
@@ -57,7 +57,7 @@ abstract class Command{
 	private $activeAliases = [];
 
 	/** @var CommandMap */
-	private $commandMap = null;
+	private $commandMap = \null;
 
 	/** @var string */
 	protected $description = "";
@@ -66,10 +66,10 @@ abstract class Command{
 	protected $usageMessage;
 
 	/** @var string */
-	private $permission = null;
+	private $permission = \null;
 
 	/** @var string */
-	private $permissionMessage = null;
+	private $permissionMessage = \null;
 
 	/** @var TimingsHandler */
 	public $timings;
@@ -80,11 +80,11 @@ abstract class Command{
 	 * @param string   $usageMessage
 	 * @param string[] $aliases
 	 */
-	public function __construct($name, $description = "", $usageMessage = null, array $aliases = []){
+	public function __construct($name, $description = "", $usageMessage = \null, array $aliases = []){
 		$this->commandData = self::generateDefaultData();
 		$this->name = $this->nextLabel = $this->label = $name;
 		$this->setDescription($description);
-		$this->usageMessage = $usageMessage === null ? "/" . $name : $usageMessage;
+		$this->usageMessage = $usageMessage === \null ? "/" . $name : $usageMessage;
 		$this->setAliases($aliases);
 		$this->timings = new TimingsHandler("** Command: " . $name);
 	}
@@ -145,7 +145,7 @@ abstract class Command{
 	 * @return string
 	 */
 	public function getPermission(){
-		return $this->commandData->pocketminePermission ?? null;
+		return $this->commandData->pocketminePermission ?? \null;
 	}
 
 
@@ -153,7 +153,7 @@ abstract class Command{
 	 * @param string|null $permission
 	 */
 	public function setPermission($permission){
-		if($permission !== null){
+		if($permission !== \null){
 			$this->commandData->pocketminePermission = $permission;
 		}else{
 			unset($this->commandData->pocketminePermission);
@@ -167,16 +167,16 @@ abstract class Command{
 	 */
 	public function testPermission(CommandSender $target){
 		if($this->testPermissionSilent($target)){
-			return true;
+			return \true;
 		}
 
-		if($this->permissionMessage === null){
+		if($this->permissionMessage === \null){
 			$target->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
 		}elseif($this->permissionMessage !== ""){
-			$target->sendMessage(str_replace("<permission>", $this->getPermission(), $this->permissionMessage));
+			$target->sendMessage(\str_replace("<permission>", $this->getPermission(), $this->permissionMessage));
 		}
 
-		return false;
+		return \false;
 	}
 
 	/**
@@ -185,17 +185,17 @@ abstract class Command{
 	 * @return bool
 	 */
 	public function testPermissionSilent(CommandSender $target){
-		if(($perm = $this->getPermission()) === null or $perm === ""){
-			return true;
+		if(($perm = $this->getPermission()) === \null or $perm === ""){
+			return \true;
 		}
 
-		foreach(explode(";", $perm) as $permission){
+		foreach(\explode(";", $perm) as $permission){
 			if($target->hasPermission($permission)){
-				return true;
+				return \true;
 			}
 		}
 
-		return false;
+		return \false;
 	}
 
 	/**
@@ -211,10 +211,10 @@ abstract class Command{
 			$this->timings = new TimingsHandler("** Command: " . $name);
 			$this->label = $name;
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 
 	/**
@@ -228,10 +228,10 @@ abstract class Command{
 		if($this->allowChangesFrom($commandMap)){
 			$this->commandMap = $commandMap;
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 
 	/**
@@ -241,14 +241,14 @@ abstract class Command{
 	 */
 	public function unregister(CommandMap $commandMap){
 		if($this->allowChangesFrom($commandMap)){
-			$this->commandMap = null;
+			$this->commandMap = \null;
 			$this->activeAliases = $this->commandData->aliases;
 			$this->label = $this->nextLabel;
 
-			return true;
+			return \true;
 		}
 
-		return false;
+		return \false;
 	}
 
 	/**
@@ -257,14 +257,14 @@ abstract class Command{
 	 * @return bool
 	 */
 	private function allowChangesFrom(CommandMap $commandMap){
-		return $this->commandMap === null or $this->commandMap === $commandMap;
+		return $this->commandMap === \null or $this->commandMap === $commandMap;
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isRegistered(){
-		return $this->commandMap !== null;
+		return $this->commandMap !== \null;
 	}
 
 	/**
@@ -327,8 +327,8 @@ abstract class Command{
 	}
 
 	public static final function generateDefaultData() : \stdClass{
-		if(self::$defaultDataTemplate === null){
-			self::$defaultDataTemplate = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_default.json"));
+		if(self::$defaultDataTemplate === \null){
+			self::$defaultDataTemplate = \json_decode(\file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_default.json"));
 		}
 		return clone self::$defaultDataTemplate;
 	}
@@ -338,7 +338,7 @@ abstract class Command{
 	 * @param string        $message
 	 * @param bool          $sendToSource
 	 */
-	public static function broadcastCommandMessage(CommandSender $source, $message, $sendToSource = true){
+	public static function broadcastCommandMessage(CommandSender $source, $message, $sendToSource = \true){
 		if($message instanceof TextContainer){
 			$m = clone $message;
 			$result = "[" . $source->getName() . ": " . ($source->getServer()->getLanguage()->get($m->getText()) !== $m->getText() ? "%" : "") . $m->getText() . "]";
@@ -356,7 +356,7 @@ abstract class Command{
 			$colored = new TranslationContainer(TextFormat::GRAY . TextFormat::ITALIC . "%chat.type.admin", [$source->getName(), $message]);
 		}
 
-		if($sendToSource === true and !($source instanceof ConsoleCommandSender)){
+		if($sendToSource === \true and !($source instanceof ConsoleCommandSender)){
 			$source->sendMessage($message);
 		}
 

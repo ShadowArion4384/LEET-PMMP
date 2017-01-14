@@ -61,7 +61,7 @@ class AddEntityPacket extends DataPacket{
 		$this->putUnsignedVarInt($this->modifiers); //attributes?
 		$meta = Binary::writeMetadata($this->metadata);
 		$this->put($meta);
-		$this->putUnsignedVarInt(count($this->links));
+		$this->putUnsignedVarInt(\count($this->links));
 		foreach($this->links as $link){
 			$this->putEntityId($link[0]);
 			$this->putEntityId($link[1]);

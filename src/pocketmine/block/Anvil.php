@@ -35,7 +35,7 @@ class Anvil extends Fallable{
 	protected $id = self::ANVIL;
 
 	public function isSolid(){
-		return false;
+		return \false;
 	}
 
 	public function __construct($meta = 0){
@@ -43,7 +43,7 @@ class Anvil extends Fallable{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return \true;
 	}
 
 	public function getHardness(){
@@ -67,18 +67,18 @@ class Anvil extends Fallable{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = \null){
 		if($player instanceof Player){
 			$player->addWindow(new AnvilInventory($this));
 		}
 
-		return true;
+		return \true;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$direction = ($player !== null ? $player->getDirection() : 0) & 0x03;
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = \null){
+		$direction = ($player !== \null ? $player->getDirection() : 0) & 0x03;
 		$this->meta = ($this->meta & 0x0c) | $direction;
-		$this->getLevel()->setBlock($block, $this, true, true);
+		$this->getLevel()->setBlock($block, $this, \true, \true);
 	}
 
 	public function getDrops(Item $item){

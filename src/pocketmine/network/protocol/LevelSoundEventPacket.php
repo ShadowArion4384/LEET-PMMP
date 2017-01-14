@@ -125,8 +125,8 @@ class LevelSoundEventPacket extends DataPacket{
 	public $z;
 	public $extraData = -1;
 	public $pitch = 1;
-	public $unknownBool = false;
-	public $unknownBool2 = false;
+	public $unknownBool = \false;
+	public $unknownBool2 = \false;
 
 	public function decode(){
 		$this->sound = $this->getByte();

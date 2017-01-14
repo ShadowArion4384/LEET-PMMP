@@ -43,16 +43,16 @@ abstract class BaseLevelProvider implements LevelProvider{
 	/** @var CompoundTag */
 	protected $levelData;
 	/** @var bool */
-	protected $asyncChunkRequest = false;
+	protected $asyncChunkRequest = \false;
 
 	public function __construct(Level $level, string $path){
 		$this->level = $level;
 		$this->path = $path;
-		if(!file_exists($this->path)){
-			mkdir($this->path, 0777, true);
+		if(!\file_exists($this->path)){
+			\mkdir($this->path, 0777, \true);
 		}
 		$nbt = new NBT(NBT::BIG_ENDIAN);
-		$nbt->readCompressed(file_get_contents($this->getPath() . "level.dat"));
+		$nbt->readCompressed(\file_get_contents($this->getPath() . "level.dat"));
 		$levelData = $nbt->getData();
 		if($levelData->Data instanceof CompoundTag){
 			$this->levelData = $levelData->Data;
@@ -67,7 +67,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 		if(!isset($this->levelData->generatorOptions)){
 			$this->levelData->generatorOptions = new StringTag("generatorOptions", "");
 		}
-		$this->asyncChunkRequest = (bool) $this->level->getServer()->getProperty("chunk-sending.async-chunk-request", false);
+		$this->asyncChunkRequest = (bool) $this->level->getServer()->getProperty("chunk-sending.async-chunk-request", \false);
 	}
 
 	public function getPath() : string{
@@ -129,11 +129,11 @@ abstract class BaseLevelProvider implements LevelProvider{
 			"Data" => $this->levelData
 		]));
 		$buffer = $nbt->writeCompressed();
-		file_put_contents($this->getPath() . "level.dat", $buffer);
+		\file_put_contents($this->getPath() . "level.dat", $buffer);
 	}
 
 	public function requestChunkTask(int $x, int $z){
-		$chunk = $this->getChunk($x, $z, false);
+		$chunk = $this->getChunk($x, $z, \false);
 		if(!($chunk instanceof Chunk)){
 			throw new ChunkException("Invalid Chunk sent");
 		}
@@ -145,6 +145,6 @@ abstract class BaseLevelProvider implements LevelProvider{
 		//non-async, call the callback directly with serialized data
 		$this->getLevel()->chunkRequestCallback($x, $z, $chunk->networkSerialize());
 
-		return null;
+		return \null;
 	}
 }

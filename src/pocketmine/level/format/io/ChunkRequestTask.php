@@ -51,7 +51,7 @@ class ChunkRequestTask extends AsyncTask{
 		foreach($chunk->getTiles() as $tile){
 			if($tile instanceof Spawnable){
 				$nbt->setData($tile->getSpawnCompound());
-				$tiles .= $nbt->write(true);
+				$tiles .= $nbt->write(\true);
 			}
 		}
 
@@ -63,7 +63,7 @@ class ChunkRequestTask extends AsyncTask{
 
 		$ordered = $chunk->networkSerialize() . $this->tiles;
 
-		$this->setResult($ordered, false);
+		$this->setResult($ordered, \false);
 	}
 
 	public function onCompletion(Server $server){

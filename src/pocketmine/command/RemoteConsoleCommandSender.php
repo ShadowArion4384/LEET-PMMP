@@ -35,7 +35,7 @@ class RemoteConsoleCommandSender extends ConsoleCommandSender{
 			$message = $this->getServer()->getLanguage()->translateString($message);
 		}
 
-		$this->messages .= trim($message, "\r\n") . "\n";
+		$this->messages .= \trim($message, "\r\n") . "\n";
 	}
 
 	public function getMessage(){

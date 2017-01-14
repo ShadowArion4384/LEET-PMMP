@@ -72,7 +72,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 			}
 		}
 
-		return null;
+		return \null;
 	}
 
 	public function offsetSet($offset, $value){
@@ -88,13 +88,13 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 	}
 
 	public function count($mode = COUNT_NORMAL){
-		for($i = 0; true; $i++){
+		for($i = 0; \true; $i++){
 			if(!isset($this->{$i})){
 				return $i;
 			}
 			if($mode === COUNT_RECURSIVE){
 				if($this->{$i} instanceof \Countable){
-					$i += count($this->{$i});
+					$i += \count($this->{$i});
 				}
 			}
 		}
@@ -114,7 +114,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 		return $this->tagType;
 	}
 
-	public function read(NBT $nbt, bool $network = false){
+	public function read(NBT $nbt, bool $network = \false){
 		$this->value = [];
 		$this->tagType = $nbt->getByte();
 		$size = $nbt->getInt($network);
@@ -179,15 +179,15 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 		}
 	}
 
-	public function write(NBT $nbt, bool $network = false){
+	public function write(NBT $nbt, bool $network = \false){
 		if(!isset($this->tagType)){
-			$id = null;
+			$id = \null;
 			foreach($this as $tag){
 				if($tag instanceof Tag){
 					if(!isset($id)){
 						$id = $tag->getType();
 					}elseif($id !== $tag->getType()){
-						return false;
+						return \false;
 					}
 				}
 			}
@@ -203,19 +203,19 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 				$tags[] = $tag;
 			}
 		}
-		$nbt->putInt(count($tags), $network);
+		$nbt->putInt(\count($tags), $network);
 		foreach($tags as $tag){
 			$tag->write($nbt, $network);
 		}
 
-		return true;
+		return \true;
 	}
 
 	public function __toString(){
-		$str = get_class($this) . "{\n";
+		$str = \get_class($this) . "{\n";
 		foreach($this as $tag){
 			if($tag instanceof Tag){
-				$str .= get_class($tag) . ":" . $tag->__toString() . "\n";
+				$str .= \get_class($tag) . ":" . $tag->__toString() . "\n";
 			}
 		}
 		return $str . "}";

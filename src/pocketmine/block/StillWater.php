@@ -31,7 +31,7 @@ class StillWater extends Water{
 		if($type !== Level::BLOCK_UPDATE_SCHEDULED){
 			return parent::onUpdate($type);
 		}
-		return false;
+		return \false;
 	}
 
 	public function getName(){

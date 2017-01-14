@@ -119,7 +119,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		// ranges: 18-20 (regen), 7-17 (none), 1-6 (no sprint), 0 (health depletion)
 		foreach([17, 6, 0] as $bound){
 			if(($old > $bound) !== ($new > $bound)){
-				$reset = true;
+				$reset = \true;
 			}
 		}
 		if(isset($reset)){
@@ -135,7 +135,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public function addFood(float $amount){
 		$attr = $this->attributeMap->getAttribute(Attribute::HUNGER);
 		$amount += $attr->getValue();
-		$amount = max(min($amount, $attr->getMaxValue()), $attr->getMinValue());
+		$amount = \max(\min($amount, $attr->getMaxValue()), $attr->getMinValue());
 		$this->setFood($amount);
 	}
 
@@ -157,7 +157,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function addSaturation(float $amount){
 		$attr = $this->attributeMap->getAttribute(Attribute::SATURATION);
-		$attr->setValue($attr->getValue() + $amount, true);
+		$attr->setValue($attr->getValue() + $amount, \true);
 	}
 
 	public function getExhaustion() : float{
@@ -196,7 +196,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 			$saturation = $this->getSaturation();
 			if($saturation > 0){
-				$saturation = max(0, $saturation - 1.0);
+				$saturation = \max(0, $saturation - 1.0);
 				$this->setSaturation($saturation);
 			}else{
 				$food = $this->getFood();
@@ -255,8 +255,8 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	protected function initEntity(){
 
-		$this->setDataFlag(self::DATA_PLAYER_FLAGS, self::DATA_PLAYER_FLAG_SLEEP, false, self::DATA_TYPE_BYTE);
-		$this->setDataProperty(self::DATA_PLAYER_BED_POSITION, self::DATA_TYPE_POS, [0, 0, 0], false);
+		$this->setDataFlag(self::DATA_PLAYER_FLAGS, self::DATA_PLAYER_FLAG_SLEEP, \false, self::DATA_TYPE_BYTE);
+		$this->setDataProperty(self::DATA_PLAYER_BED_POSITION, self::DATA_TYPE_POS, [0, 0, 0], \false);
 
 		$this->inventory = new PlayerInventory($this);
 		if($this instanceof Player){
@@ -328,7 +328,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		}
 
 		if(!isset($this->namedtag->XpSeed) or !($this->namedtag->XpSeed instanceof IntTag)){
-			$this->namedtag->XpSeed = new IntTag("XpSeed", $this->xpSeed ?? ($this->xpSeed = mt_rand(PHP_INT_MIN, PHP_INT_MAX)));
+			$this->namedtag->XpSeed = new IntTag("XpSeed", $this->xpSeed ?? ($this->xpSeed = \mt_rand(PHP_INT_MIN, \PHP_INT_MAX)));
 		}else{
 			$this->xpSeed = $this->namedtag["XpSeed"];
 		}
@@ -362,13 +362,13 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 				$this->foodTickTimer++;
 				if($this->foodTickTimer >= 80){
 					$diff = $this->server->getDifficulty();
-					$can = false;
+					$can = \false;
 					if($diff === 1){
 						$can = $health > 10;
 					}elseif($diff === 2){
 						$can = $health > 1;
 					}elseif($diff === 3){
-						$can = true;
+						$can = \true;
 					}
 					if($can){
 						$this->attack(1, new EntityDamageEvent($this, EntityDamageEvent::CAUSE_STARVATION, 1));
@@ -377,7 +377,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			}
 			if($food <= 6){
 				if($this->isSprinting()){
-					$this->setSprinting(false);
+					$this->setSprinting(\false);
 				}
 			}
 		}
@@ -391,7 +391,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function getDrops(){
 		$drops = [];
-		if($this->inventory !== null){
+		if($this->inventory !== \null){
 			foreach($this->inventory->getContents() as $item){
 				$drops[] = $item;
 			}
@@ -404,7 +404,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		parent::saveNBT();
 		$this->namedtag->Inventory = new ListTag("Inventory", []);
 		$this->namedtag->Inventory->setTagType(NBT::TAG_Compound);
-		if($this->inventory !== null){
+		if($this->inventory !== \null){
 			for($slot = 0; $slot < 9; ++$slot){
 				$hotbarSlot = $this->inventory->getHotbarSlotIndex($slot);
 				if($hotbarSlot !== -1){
@@ -444,7 +444,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			}
 		}
 
-		if(strlen($this->getSkinData()) > 0){
+		if(\strlen($this->getSkinData()) > 0){
 			$this->namedtag->Skin = new CompoundTag("Skin", [
 				"Data" => new StringTag("Data", $this->getSkinData()),
 				"Name" => new StringTag("Name", $this->getSkinId())
@@ -456,7 +456,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		if($player !== $this and !isset($this->hasSpawned[$player->getLoaderId()])){
 			$this->hasSpawned[$player->getLoaderId()] = $player;
 
-			if(strlen($this->skin) < 64 * 32 * 4){
+			if(\strlen($this->skin) < 64 * 32 * 4){
 				throw new \InvalidStateException((new \ReflectionClass($this))->getShortName() . " must have a valid skin set");
 			}
 

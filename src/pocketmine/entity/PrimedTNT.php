@@ -40,7 +40,7 @@ class PrimedTNT extends Entity implements Explosive{
 
 	protected $fuse;
 
-	public $canCollide = false;
+	public $canCollide = \false;
 
 
 	public function attack($damage, EntityDamageEvent $source){
@@ -58,13 +58,13 @@ class PrimedTNT extends Entity implements Explosive{
 			$this->fuse = 80;
 		}
 
-		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IGNITED, true);
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IGNITED, \true);
 		$this->setDataProperty(self::DATA_FUSE_LENGTH, self::DATA_TYPE_INT, $this->fuse);
 	}
 
 
 	public function canCollideWith(Entity $entity){
-		return false;
+		return \false;
 	}
 
 	public function saveNBT(){
@@ -75,14 +75,14 @@ class PrimedTNT extends Entity implements Explosive{
 	public function onUpdate($currentTick){
 
 		if($this->closed){
-			return false;
+			return \false;
 		}
 
 		$this->timings->startTiming();
 
 		$tickDiff = $currentTick - $this->lastUpdate;
 		if($tickDiff <= 0 and !$this->justCreated){
-			return true;
+			return \true;
 		}
 
 		if($this->fuse % 5 === 0){ //don't spam it every tick, it's not necessary
@@ -123,7 +123,7 @@ class PrimedTNT extends Entity implements Explosive{
 		}
 
 
-		return $hasUpdate or $this->fuse >= 0 or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
+		return $hasUpdate or $this->fuse >= 0 or \abs($this->motionX) > 0.00001 or \abs($this->motionY) > 0.00001 or \abs($this->motionZ) > 0.00001;
 	}
 
 	public function explode(){
